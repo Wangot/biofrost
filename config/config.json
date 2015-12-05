@@ -1,0 +1,79 @@
+{
+    "development": {
+        "url": "http://localhost:3000/",
+        "appName": "Biofrost - Development",
+        "db" : {
+            "username": "biofrost",
+            "password": "biofrost",
+            "database": "biofrost",
+            "host": "127.0.0.1",
+            "dialect": "mysql",
+            "logging": false
+        },
+        "redis": {
+            "host": "localhost",
+            "port": 6379,
+            "secretKey": "secretKey"
+        },
+        "sendgrid":{
+            "user": "biofrost",
+            "key": "biofrost123",
+            "defaultFromEmail": "noreply@biofrost.no",
+            "defaultFromName": "Biofrost"
+        },
+        "import_settings": {
+            "email_report": "raymande.leano@gmail.com"
+        }
+    },
+    "staging": {
+        "url": "http://staging.Biofrost.no/",
+        "appName": "Biofrost - Staging",
+        "db": {
+            "username": "biofrost",
+            "password": "biofrost",
+            "database": "biofrost_staging",
+            "host": "localhost",
+            "dialect": "mysql"
+        },
+        "redis": {
+            "host": "localhost",
+            "port": 6379,
+            "secretKey": "secretKeyStaging"
+        },
+        "sendgrid":{
+            "user": "biofrost",
+            "key": "biofrost123",
+            "defaultFromEmail": "other@example.com",
+            "defaultFromName": "Biofrost"
+        },
+        "import_settings": {
+            "email_report": "raymande.leano@gmail.com"
+        }
+    },
+    "production": {
+        "url": "http://Biofrost.no/",
+        "appName": "Biofrost",
+        "db": {
+            "username": "biofrost",
+            "password": "biofrost",
+            "database": "biofrost",
+            "host": "localhost",
+            "dialect": "mysql",
+            "logging": false
+        },
+        "redis": {
+            "host": "localhost",
+            "port": 6379,
+            "secretKey": "secretKeyProd"
+        },
+        "sendgrid":{
+            "user": "biofrost",
+            "key": "biofrost123",
+            "defaultFromEmail": "noreply@Biofrost.no",
+            "defaultFromName": "Biofrost"
+        },
+        "import_settings": {
+            "email_report": "raymande.leano@gmail.com"
+        }
+    }
+}
