@@ -28,11 +28,12 @@ app.use(express.static(path.join(__dirname, 'public')));
 models.sequelize.sync({force: true}).then(function(){});
 
 
+
 // Initialize custom layout and router
 require('./models/layout')(app);
 
-app.use('/', routes);
-app.use('/users', users);
+// Routes
+require('./routes/index')(app);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
