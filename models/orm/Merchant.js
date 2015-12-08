@@ -22,7 +22,7 @@ module.exports = function(sequelize, DataTypes) {
     }, 
     {
         underscored: true,
-        tableName: 'Merchant',
+        tableName: 'merchant',
         instanceMethods: {
         },
         classMethods: {

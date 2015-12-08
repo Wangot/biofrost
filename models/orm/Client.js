@@ -22,12 +22,13 @@ module.exports = function(sequelize, DataTypes) {
     }, 
     {
         underscored: true,
-        tableName: 'Client',
+        tableName: 'client',
         instanceMethods: {
         },
         classMethods: {
             associate: function(models) {
-                Client.hasMany(models.Employee, {constraints: false, foreignKey: 'ref_id', scope: {company_type: 'CLIENT'}})
+                Client.hasMany(models.Employee, {constraints: false, foreignKey: 'ref_id', scope: {company_type: 'CLIENT'}}),
+                Client.hasMany(models.Order)
             }
         },
         hooks: {

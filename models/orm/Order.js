@@ -15,12 +15,13 @@ module.exports = function(sequelize, DataTypes) {
     }, 
     {
         underscored: true,
-        tableName: 'company',
+        tableName: 'order',
         instanceMethods: {
         },
         classMethods: {
             associate: function(models) {
-                // Order.hasMany(models.Employee)
+                Order.belongsTo(models.Client),
+                Order.hasMany(models.Payment)
             }
         },
         hooks: {

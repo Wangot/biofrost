@@ -1,5 +1,5 @@
 module.exports = function(sequelize, DataTypes) {
-    var Item = sequelize.define("Item", {
+    var Truck = sequelize.define("Truck", {
         name: {
             type: DataTypes.STRING(100),
             allowNull: false,
@@ -7,25 +7,28 @@ module.exports = function(sequelize, DataTypes) {
                 notEmpty: true
             }
         },
-        description: DataTypes.TEXT,
-        price: {
-            type: DataTypes.DECIMAL(10, 2),
-            defaultValue: 0
-        }
+        plate_number: {
+            type: DataTypes.STRING(100),
+            allowNull: false,
+            validate: {
+                notEmpty: true
+            }
+        },
+        description: DataTypes.TEXT
     }, 
     {
         underscored: true,
-        tableName: 'item',
+        tableName: 'truck',
         instanceMethods: {
         },
         classMethods: {
             associate: function(models) {
-                Item.belongsToMany(models.Delivery, {through: models.DeliveryItems})
+                Truck.hasMany(models.Delivery)
             }
         },
         hooks: {
         }
     });
 
-    return Item;
+    return Truck;
 };
