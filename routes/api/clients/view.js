@@ -2,13 +2,13 @@ var path = require('path');
 var models = require(path.resolve("./models/orm"));
 
 module.exports = function(req, res) {
-    models.Merchant.findOne({ 
+    models.Client.findOne({ 
         where: {id: req.params.id}
     }).then(function(resultObj){
     	if(resultObj){
-        	res.renderJsonSuccess({ Merchant: resultObj });
+        	res.renderJsonSuccess({ Client: resultObj });
     	}else{
-	    	res.renderJsonFail('Merchant not found.');
+	    	res.renderJsonFail('Client not found.');
 	    }
     });
 }
