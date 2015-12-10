@@ -1,0 +1,3 @@
+[submodule "angular-boilerplate"]
+	path = angular-boilerplate
+	url = git@github.com:Wangot/angularjs-gulp-browserify-boilerplate.git
