@@ -1,7 +1,7 @@
 'use strict';
 
 const AppSettings = {
-  appTitle: 'Example Application',
+  appTitle: 'Biofrost Application',
   apiUrl: '/api/v1'
 };
 
