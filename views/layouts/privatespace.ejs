@@ -15,7 +15,7 @@
     <link href="font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
   </head>
   <body ng-app="BioApp">
-    <div class="container">
+    <div id="wrapper">
       <!-- Navigation -->
         <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
             <!-- Brand and toggle get grouped for better mobile display -->
@@ -30,9 +30,11 @@
             </div>
             
             <% include partials/_topmenu.ejs %>
+            <% include partials/_sidebar.ejs %>
+            <!-- /.navbar-collapse -->
         </nav>
 
-      <div class="content-container">
+      <div id="page-wrapper">
         <div class="container-fluid">
           <%- content %>
         </div>

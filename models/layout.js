@@ -8,7 +8,7 @@ module.exports = function(app){
 	        if(!layout) layout = 'main';
 
 	        var appRootDir = __dirname + '/../'; // Change this depending on the location of this
-	        app.render(appRootDir + 'views/'+ viewPage, options, function(err, html){
+	        that.render(appRootDir + 'views/'+ viewPage, options, function(err, html){
 		        options.content = html;
 		        options.viewPage = viewPage;
                 // options.version = pjson.version;

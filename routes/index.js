@@ -7,5 +7,6 @@ var router = express.Router();
 module.exports = function(app){
     app.use('/', require('./public'));
     app.use('/api', require('./api'));
+    app.use('/privatespace', require('./privatespace'));
 	app.use('/', router);
 };
