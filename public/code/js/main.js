@@ -9,6 +9,7 @@ import './filters';
 import './controllers';
 import './services';
 import './directives';
+import 'angular-ui-bootstrap';
 
 // create and bootstrap application
 const requires = [
