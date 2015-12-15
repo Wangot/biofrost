@@ -10,8 +10,11 @@ var models = require(path.resolve("./models/orm"));
 /* GET home page. */
 router.get('/', function(req, res) {
     // res.redirect('/login'); return;
-    console.log("==============");
   	res.renderLayout('privatespace/index', { title: 'Hello' }, 'privatespace');
+});
+
+router.all('/*', function(req, res) {
+    res.renderLayout('privatespace/index', { title: 'Hello' }, 'privatespace');
 });
 
 module.exports = router;

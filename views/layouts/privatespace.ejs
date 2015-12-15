@@ -2,17 +2,18 @@
 <html>
   <head>
     <title><%= title %></title>
+    <base href="/privatespace/">
     <!-- Bootstrap Core CSS -->
-    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="/css/bootstrap.min.css" rel="stylesheet">
 
     <!-- Custom CSS -->
-    <link href="css/sb-admin.css" rel="stylesheet">
+    <link href="/css/sb-admin.css" rel="stylesheet">
 
     <!-- Morris Charts CSS -->
-    <link href="css/plugins/morris.css" rel="stylesheet">
+    <link href="/css/plugins/morris.css" rel="stylesheet">
 
     <!-- Custom Fonts -->
-    <link href="font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+    <link href="/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
   </head>
   <body ng-app="BioApp">
     <div id="wrapper">
@@ -29,22 +30,26 @@
                 <a class="navbar-brand" href="/">BioFrost</a>
             </div>
             
-            <% include partials/_topmenu.ejs %>
-            <% include partials/_sidebar.ejs %>
+            <% include privatespace_partials/_topmenu.ejs %>
+            <% include privatespace_partials/_sidebar.ejs %>
             <!-- /.navbar-collapse -->
         </nav>
 
       <div id="page-wrapper">
-        <div class="container-fluid">
+        <div ng-view class="container-fluid">
           <%- content %>
         </div>
       </div>
     </div>
     <!-- jQuery -->
-    <script src="js/jquery.js"></script>
+    <script src="/js/jquery.js"></script>
 
     <!-- Bootstrap Core JavaScript -->
-    <script src="js/bootstrap.min.js"></script>
+    <script src="/js/bootstrap.min.js"></script>
+
+    <script src="/js/angular/angular.min.js"></script>
+    <script src="/js/angular/angular-route.min.js"></script>
+    <script src="/js/privatespace/main.js"></script>
   </body>
 
 </html>

@@ -13,4 +13,20 @@ router.get('/', function(req, res) {
   	res.renderLayout('public/home', { title: 'Express' });
 });
 
+
+// handler of templates for angular view
+// @TODO : enhance this add some validation
+router.get('/templates/:path*', function(req, res) {
+  var referer = req.headers.referer;
+
+  // the the path of the file
+  var path = req.originalUrl.replace('/templates', '');
+  // must have referer (ajax call) else show 404
+  // add redirection to 404 here
+  if (!referer) return;
+  if (!path) return;  // might want to change this
+  // add checker for folder is available
+  res.render( 'angular-templates/' + path );
+});
+
 module.exports = router;
