@@ -32,10 +32,10 @@ bioApp.config(['$routeProvider', '$locationProvider',
 
 var appControllers = angular.module('appControllers', []);
 
-appControllers.controller('DashboardCtrl', ['$scope',
-  function($scope) {
+appControllers.controller('DashboardCtrl', ['$scope', 'SimpleRestClient',
+  function($scope, SimpleRestClient) {
     console.log("Nice...");
-
+    
   }]);
 
 appControllers.controller('ClientCtrl',['$scope', 'Client',
@@ -51,13 +51,19 @@ appControllers.controller('ClientCtrl',['$scope', 'Client',
         Client.save($scope.client)
     });*/
 
-    Client.get({}, function(ret){
+    /*var sRestClient = SimpleRestClient('clients');
+    sRestClient.get({id: 1}).then(function(ret){
+        console.log("retur: ", ret);
+        $scope.Client = ret;
+    })*/
+
+    /*Client.get({}, function(ret){
         $scope.Clients = ret.data.Clients
     });
 
     $scope.testSave = function(){
         $scope.client.save();
-    }
+    }*/
   }]);
 
 
@@ -79,10 +85,41 @@ appServices.factory('Client', ['$resource',
     });
   }]);
 
-/*appServices.factory('Client', ['$resource',
-  function($resource){
-    return $resource('/api/clients/:phoneId.json', {}, {
-      query: {method:'GET', params:{phoneId:'phones'}, isArray:true}
-    });
-  }]);*/
+
+appServices.factory('SimpleRestResultFilter', ['$q',
+  function($q){
+    return {
+        APIReturn: function(params){
+            console.log("======> processing", params)
+        }
+    }
+  }]);
+
+appServices.factory('SimpleRestClient', ['$resource', '$q', 'SimpleRestResultFilter',
+  function($resource, $q, SimpleRestResultFilter){
+    return function(model){
+        var obj = $resource('/api/'+ model +'/:id', {id: '@id'}, {
+          // query: {method:'GET', params:{}, isArray:false},
+          // save: {method:'POST', params:{}, isArray:false}
+        });
+
+        return {
+            get : function(params){
+                var deferred = $q.defer();
+                obj.get(
+                    params, 
+                    function(ret){
+                        SimpleRestResultFilter.APIReturn(ret)
+                        deferred.resolve(ret.data)
+                    }, 
+                    function(response) {
+                        console.log("=====<<<<>>>", response.status)
+                    }
+                )
+
+                return deferred.promise;
+            }
+        }
+    }
+  }]);
 
