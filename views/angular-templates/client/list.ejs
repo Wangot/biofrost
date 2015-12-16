@@ -1,0 +1,34 @@
+<div class="row">
+    <div class="col-lg-12">
+        <h2 class="page-header">
+            Client
+        </h2>
+    </div>
+</div>
+<div class="row">
+    <div class="col-lg-12">
+        <div class="table-responsive">
+            <table class="table table-bordered table-hover table-striped">
+                <thead>
+                    <tr>
+                        <th>id</th>
+                        <th>name</th>
+                        <th>email</th>
+                        <th>telephone/mobile</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-repeat="client in Client">
+                        <td>{{client.id}}</td>
+                        <td>{{client.name}}</td>
+                        <td>{{client.email}}</td>
+                        <td>{{client.telephone}} / {{client.mobile}}</td>
+                        <td><a href="clients/{{client.id}}">Edit</a></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+

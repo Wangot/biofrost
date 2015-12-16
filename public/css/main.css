@@ -1,0 +1,13 @@
+.no-padding {
+   padding: 0 !important;
+   margin: 0 !important;
+}
+
+.form-action {
+    margin-top: 20px;
+    padding: 10px;
+    width: 100%;
+    text-align: right;
+    margin-bottom: 50px;
+    z-index: 1;
+}

@@ -18,8 +18,16 @@ bioApp.config(['$routeProvider', '$locationProvider',
         controller: 'DashboardCtrl'
       }).
       when('/clients', {
-        templateUrl: '/templates/client-list',
+        templateUrl: '/templates/client/list',
         controller: 'ClientCtrl'
+      }).
+      when('/clients/add', {
+        templateUrl: '/templates/client/form',
+        controller: 'ClientDetailCtrl'
+      }).
+      when('/clients/:clientId', {
+        templateUrl: '/templates/client/form',
+        controller: 'ClientDetailCtrl'
       }).
       otherwise({
         redirectTo: '/dashboard'
@@ -38,33 +46,34 @@ appControllers.controller('DashboardCtrl', ['$scope', 'SimpleRestClient',
     
   }]);
 
-appControllers.controller('ClientCtrl',['$scope', 'Client',
-  function($scope, Client) {
-    console.log("Nice... Client", Client);
-    /*Client.save({
-        id: 2,
-        name: 'Eman'
-    })*/
-    /*Client.get({id: 1}, function(result){
-        $scope.client = result.data.Client;
-        $scope.client.name = "abno"
-        Client.save($scope.client)
-    });*/
-
-    /*var sRestClient = SimpleRestClient('clients');
-    sRestClient.get({id: 1}).then(function(ret){
-        console.log("retur: ", ret);
-        $scope.Client = ret;
-    })*/
-
-    /*Client.get({}, function(ret){
-        $scope.Clients = ret.data.Clients
-    });
-
-    $scope.testSave = function(){
-        $scope.client.save();
-    }*/
+appControllers.controller('ClientCtrl',['$scope', 'SimpleRestClient',
+  function($scope, SimpleRestClient) {
+    var sRestClient = SimpleRestClient('clients');
+    sRestClient.get({}).then(function(ret){
+        $scope.Client = ret.Clients;
+    })
   }]);
+
+appControllers.controller('ClientDetailCtrl',['$scope', '$routeParams', 'SimpleRestClient', function($scope, $routeParams, SimpleRestClient) {
+    $scope.action = 'ADD';
+    $scope.Client = {};
+    var sRestClient = SimpleRestClient('clients');
+
+    if($routeParams.clientId){
+        $scope.action = 'EDIT';
+        sRestClient.get({id: $routeParams.clientId}).then(function(ret){
+            console.log("retur: ", ret);
+            $scope.Client = ret.Client;
+        });
+    }
+    
+
+    $scope.save = function(){
+        sRestClient.save($scope.Client).then(function(ret){
+            $scope.Client = ret.Client;
+        });
+    }
+}]);
 
 
 /* Filters */
@@ -105,6 +114,7 @@ appServices.factory('SimpleRestClient', ['$resource', '$q', 'SimpleRestResultFil
 
         return {
             get : function(params){
+                console.log("_+_+_+_+-=-=-", params)
                 var deferred = $q.defer();
                 obj.get(
                     params, 
@@ -113,7 +123,22 @@ appServices.factory('SimpleRestClient', ['$resource', '$q', 'SimpleRestResultFil
                         deferred.resolve(ret.data)
                     }, 
                     function(response) {
-                        console.log("=====<<<<>>>", response.status)
+                        console.log("fail: ", response.status)
+                    }
+                )
+
+                return deferred.promise;
+            },
+            save: function(params){
+                var deferred = $q.defer();
+                obj.save(
+                    params, 
+                    function(ret){
+                        SimpleRestResultFilter.APIReturn(ret)
+                        deferred.resolve(ret.data)
+                    }, 
+                    function(response) {
+                        console.log("fail: ", response.status)
                     }
                 )
 
