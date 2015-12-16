@@ -7,7 +7,7 @@ var bioApp = angular.module('BioApp', [
   // 'phonecatAnimations',
   'appControllers',
   // 'phonecatFilters',
-  // 'phonecatServices'
+  'appServices'
 ]);
 
 bioApp.config(['$routeProvider', '$locationProvider',
@@ -38,10 +38,26 @@ appControllers.controller('DashboardCtrl', ['$scope',
 
   }]);
 
-appControllers.controller('ClientCtrl', ['$scope',
-  function($scope) {
-    console.log("Nice...");
+appControllers.controller('ClientCtrl',['$scope', 'Client',
+  function($scope, Client) {
+    console.log("Nice... Client", Client);
+    /*Client.save({
+        id: 2,
+        name: 'Eman'
+    })*/
+    /*Client.get({id: 1}, function(result){
+        $scope.client = result.data.Client;
+        $scope.client.name = "abno"
+        Client.save($scope.client)
+    });*/
 
+    Client.get({}, function(ret){
+        $scope.Clients = ret.data.Clients
+    });
+
+    $scope.testSave = function(){
+        $scope.client.save();
+    }
   }]);
 
 
@@ -53,11 +69,19 @@ appControllers.controller('ClientCtrl', ['$scope',
 });*/
 
 /* Services */
-var phonecatServices = angular.module('phonecatServices', ['ngResource']);
+var appServices = angular.module('appServices', ['ngResource']);
 
-/*phonecatServices.factory('Phone', ['$resource',
+appServices.factory('Client', ['$resource',
   function($resource){
-    return $resource('phones/:phoneId.json', {}, {
+    return $resource('/api/clients/:id', {id: '@id'}, {
+      // query: {method:'GET', params:{}, isArray:false},
+      // save: {method:'POST', params:{}, isArray:false}
+    });
+  }]);
+
+/*appServices.factory('Client', ['$resource',
+  function($resource){
+    return $resource('/api/clients/:phoneId.json', {}, {
       query: {method:'GET', params:{phoneId:'phones'}, isArray:true}
     });
   }]);*/
