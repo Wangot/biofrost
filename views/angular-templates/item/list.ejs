@@ -1,10 +1,10 @@
 <div class="row">
     <div class="col-lg-12 title-bar">
         <h3 class="title col-lg-6">
-            Client
+            Items
         </h3>
         <div class="col-lg-6 title-box">
-            <a href="clients/add" class="btn col-lg-offset-11 btn-primary">Add</a>
+            <a href="items/add" class="btn col-lg-offset-11 btn-primary">Add</a>
         </div>
     </div>
 </div>
@@ -15,19 +15,19 @@
                 <thead>
                     <tr>
                         <th>id</th>
-                        <th>name</th>
-                        <th>email</th>
-                        <th>telephone/mobile</th>
+                        <th>Name</th>
+                        <th>Description</th>
+                        <th>Price</th>
                         <th>Actions</th>
                     </tr>
                 </thead>
                 <tbody>
-                    <tr ng-repeat="client in Client">
-                        <td>{{client.id}}</td>
-                        <td>{{client.name}}</td>
-                        <td>{{client.email}}</td>
-                        <td>{{client.telephone}} / {{client.mobile}}</td>
-                        <td><a href="clients/{{client.id}}">Edit</a></td>
+                    <tr ng-repeat="item in Items">
+                        <td>{{item.id}}</td>
+                        <td>{{item.name}}</td>
+                        <td>{{item.description}}</td>
+                        <td>{{item.price}}</td>
+                        <td><a href="items/{{item.id}}">Edit</a></td>
                     </tr>
                 </tbody>
             </table>
