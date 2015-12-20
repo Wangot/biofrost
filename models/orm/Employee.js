@@ -46,7 +46,8 @@ module.exports = function(sequelize, DataTypes) {
         classMethods: {
             associate: function(models) {
                 Employee.belongsTo(models.Merchant, {constraints: false, foreignKey: 'ref_id'}),
-                Employee.belongsTo(models.Client, {constraints: false, foreignKey: 'ref_id'})
+                Employee.belongsTo(models.Client, {constraints: false, foreignKey: 'ref_id'}),
+                Employee.belongsToMany(models.Delivery, {through: 'delivery_employees'})
             }
         },
         hooks: {

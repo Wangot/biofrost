@@ -10,7 +10,8 @@ module.exports = function(sequelize, DataTypes) {
         classMethods: {
             associate: function(models) {
                 Delivery.belongsTo(models.Truck),
-                Delivery.belongsToMany(models.Item, {through: models.DeliveryItems})
+                Delivery.belongsToMany(models.Item, {through: models.DeliveryItems}),
+                Delivery.belongsToMany(models.Employee, {through: 'delivery_employees'})
             }
         },
         hooks: {

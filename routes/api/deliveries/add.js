@@ -18,7 +18,6 @@ module.exports = function(req, res) {
 
     return models.sequelize.transaction(function (t) { 
         return models.Delivery.create(delivery, {transaction: t}).then(function(deliveryObj){
-
             var items = [];
             for (var i = delivery.Items.length - 1; i >= 0; i--) {
                 var temp = {
@@ -31,7 +30,18 @@ module.exports = function(req, res) {
                 items.push(temp)
             };
         	return models.DeliveryItems.bulkCreate(items, {transaction:t}).then(function(){
-        		return deliveryObj;
+        		var items = [];
+                for (var i = delivery.Employees.length - 1; i >= 0; i--) {
+                    var temp = {
+                        item_id: delivery.Employees[i].id,
+                        delivery_id: deliveryObj.id,
+                        quantity: delivery.Employees[i].DeliveryItems.quantity,
+                        description: delivery.Employees[i].DeliveryItems.description
+                    }
+
+                    items.push(temp)
+                };
+                return deliveryObj;
         	});
         });
     }).then(function(resultObj){

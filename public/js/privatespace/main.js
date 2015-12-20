@@ -53,6 +53,30 @@ bioApp.config(['$routeProvider', '$locationProvider',
         templateUrl: '/templates/item/form',
         controller: 'ItemDetailCtrl'
       }).
+      when('/trucks', {
+        templateUrl: '/templates/truck/list',
+        controller: 'TruckCtrl'
+      }).
+      when('/trucks/add', {
+        templateUrl: '/templates/truck/form',
+        controller: 'TruckDetailCtrl'
+      }).
+      when('/trucks/:itemId', {
+        templateUrl: '/templates/truck/form',
+        controller: 'TruckDetailCtrl'
+      }).
+      when('/deliveries', {
+        templateUrl: '/templates/delivery/list',
+        controller: 'DeliveryCtrl'
+      }).
+      when('/deliveries/add', {
+        templateUrl: '/templates/delivery/form',
+        controller: 'DeliveryDetailCtrl'
+      }).
+      when('/deliveries/:itemId', {
+        templateUrl: '/templates/delivery/form',
+        controller: 'DeliveryDetailCtrl'
+      }).
       otherwise({
         redirectTo: '/dashboard'
       });
@@ -152,6 +176,60 @@ appControllers.controller('ItemDetailCtrl',['$scope', '$routeParams', 'SimpleRes
     $scope.save = function(){
         sRestClient.save($scope.Item).then(function(ret){
             $scope.Item = ret.Item;
+        });
+    }
+}]);
+
+/* Trucks */
+appControllers.controller('TruckCtrl',['$scope', 'SimpleRestClient', function($scope, SimpleRestClient) {
+    var sRestClient = SimpleRestClient('trucks');
+    sRestClient.get({}).then(function(ret){
+        $scope.Trucks = ret.Trucks;
+    })
+}]);
+
+appControllers.controller('TruckDetailCtrl',['$scope', '$routeParams', 'SimpleRestClient', function($scope, $routeParams, SimpleRestClient) {
+    $scope.action = 'ADD';
+    $scope.Truck = {};
+    var sRestClient = SimpleRestClient('trucks');
+
+    if($routeParams.itemId){
+        $scope.action = 'EDIT';
+        sRestClient.get({id: $routeParams.itemId}).then(function(ret){
+            $scope.Truck = ret.Truck;
+        });
+    }
+
+    $scope.save = function(){
+        sRestClient.save($scope.Truck).then(function(ret){
+            $scope.Truck = ret.Truck;
+        });
+    }
+}]);
+
+/* Delivery */
+appControllers.controller('DeliveryCtrl',['$scope', 'SimpleRestClient', function($scope, SimpleRestClient) {
+    var sRestClient = SimpleRestClient('deliveries');
+    sRestClient.get({}).then(function(ret){
+        $scope.Deliveries = ret.Deliveries;
+    })
+}]);
+
+appControllers.controller('DeliveryDetailCtrl',['$scope', '$routeParams', 'SimpleRestClient', function($scope, $routeParams, SimpleRestClient) {
+    $scope.action = 'ADD';
+    $scope.Delivery = {};
+    var sRestClient = SimpleRestClient('deliveries');
+
+    if($routeParams.itemId){
+        $scope.action = 'EDIT';
+        sRestClient.get({id: $routeParams.itemId}).then(function(ret){
+            $scope.Delivery = ret.Delivery;
+        });
+    }
+
+    $scope.save = function(){
+        sRestClient.save($scope.Delivery).then(function(ret){
+            $scope.Delivery = ret.Delivery;
         });
     }
 }]);
