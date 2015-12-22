@@ -12,7 +12,7 @@ module.exports = function(req, res) {
             return resultObj.updateAttributes(employee, {transaction: t});
         }).then(function(result){
             resultObj.reload({ include: [{ all: true }]}).then(function(){
-                res.renderJsonSuccess({ Employee: resultObj });
+                res.renderJsonSuccess({ Employee: resultObj }, 'Updating of employee "'+ resultObj.name +'" is successful.');
             });
         }).catch(function(err){
             res.renderJsonFail('Failed saving the employee.', err.errors);

@@ -32,7 +32,7 @@ module.exports = function(req, res) {
             });
         }).then(function(result){
             resultObj.reload({ include: [{ all: true }]}).then(function(){
-                res.renderJsonSuccess({ Delivery: resultObj });
+                res.renderJsonSuccess({ Delivery: resultObj }, 'Update of delivery is successful.');
             });
         }).catch(function(err){
             res.renderJsonFail('Failed saving the delivery', err.errors);

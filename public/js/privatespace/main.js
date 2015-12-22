@@ -312,16 +312,24 @@ appServices.factory('CacheService', ['$cacheFactory', function($cacheFactory) {
     return cache;
 }]);
 
-appServices.factory('SimpleRestResultFilter', ['$q',
-  function($q){
+appServices.factory('SimpleRestResultFilter', ['$q', 'Notification', function($q, Notification){
     return {
         APIReturn: function(params){
-            console.log("======> processing", params)
+            var deferred = $q.defer();
+            if(params.status == "success"){
+                if(params.message != "") Notification.success(params.message)
+            }else{
+                Notification.error(params.message)
+            }
+
+            deferred.resolve(params.data || {})
+
+            return deferred.promise;
         }
     }
   }]);
 
-appServices.factory('SimpleRestClient', ['$resource', '$q', 'SimpleRestResultFilter',
+appServices.factory('SimpleRestClient', ['$resource', '$q', 'SimpleRestResultFilter', 'Notification',
   function($resource, $q, SimpleRestResultFilter){
     return function(model){
         var obj = $resource('/api/'+ model +'/:id', {id: '@id'}, {
@@ -331,16 +339,17 @@ appServices.factory('SimpleRestClient', ['$resource', '$q', 'SimpleRestResultFil
 
         return {
             get : function(params){
-                console.log("_+_+_+_+-=-=-", params)
                 var deferred = $q.defer();
                 obj.get(
                     params, 
                     function(ret){
-                        SimpleRestResultFilter.APIReturn(ret)
-                        deferred.resolve(ret.data)
+                        SimpleRestResultFilter.APIReturn(ret).then(function(data){
+                            deferred.resolve(data)
+                        })
                     }, 
                     function(response) {
                         console.log("fail: ", response.status)
+                        Notification.error(response)
                     }
                 )
 
@@ -351,11 +360,13 @@ appServices.factory('SimpleRestClient', ['$resource', '$q', 'SimpleRestResultFil
                 obj.save(
                     params, 
                     function(ret){
-                        SimpleRestResultFilter.APIReturn(ret)
-                        deferred.resolve(ret.data)
+                        SimpleRestResultFilter.APIReturn(ret).then(function(data){
+                            deferred.resolve(data)
+                        })
                     }, 
                     function(response) {
                         console.log("fail: ", response.status)
+                        Notification.error(response);
                     }
                 )
 

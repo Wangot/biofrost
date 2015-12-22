@@ -8,7 +8,7 @@ module.exports = function(req, res) {
             return resultObj.updateAttributes(req.body, {transaction: t});
         }).then(function(result){
             resultObj.reload({ include: [{ all: true }]}).then(function(){
-                res.renderJsonSuccess({ Client: resultObj });
+                res.renderJsonSuccess({ Client: resultObj }, 'Update of client "'+ resultObj.name +'" successful.');
             });
         }).catch(function(err){
             res.renderJsonFail('Failed saving the client.', err.errors);

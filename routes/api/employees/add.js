@@ -10,7 +10,7 @@ module.exports = function(req, res) {
     return models.sequelize.transaction(function (t) { 
         return models.Employee.create(employee, {transaction: t});
     }).then(function(resultObj){
-       res.renderJsonSuccess({ Employee: resultObj });
+       res.renderJsonSuccess({ Employee: resultObj }, 'Saving of employee "'+ resultObj.name +'" is successful.');
     }).catch(function(err){
         res.renderJsonFail('Failed saving the employee', err.errors);
     });

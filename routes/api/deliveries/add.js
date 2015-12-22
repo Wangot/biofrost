@@ -43,7 +43,7 @@ module.exports = function(req, res) {
                 models.Item
             ]
         }).then(function(delivery){
-            res.renderJsonSuccess({ Delivery: delivery });
+            res.renderJsonSuccess({ Delivery: delivery }, 'Saving of delivery is successful.');
         })
     }).catch(function(err){
         res.renderJsonFail('Failed saving the deliveries', err.errors);
