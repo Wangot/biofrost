@@ -7,7 +7,8 @@ var bioApp = angular.module('BioApp', [
   // 'phonecatAnimations',
   'appControllers',
   // 'phonecatFilters',
-  'appServices'
+  'appServices',
+  'ui-notification'
 ]);
 
 bioApp.config(['$routeProvider', '$locationProvider',
@@ -112,9 +113,10 @@ appControllers.controller('ClientDetailCtrl',['$scope', '$routeParams', 'SimpleR
             console.log("retur: ", ret);
             $scope.Client = ret.Client;
         });
-    }
+    }  
 
     $scope.save = function(){
+      
         sRestClient.save($scope.Client).then(function(ret){
             $scope.Client = ret.Client;
         });
@@ -215,10 +217,17 @@ appControllers.controller('DeliveryCtrl',['$scope', 'SimpleRestClient', function
     })
 }]);
 
-appControllers.controller('DeliveryDetailCtrl',['$scope', '$routeParams', 'SimpleRestClient', function($scope, $routeParams, SimpleRestClient) {
+appControllers.controller('DeliveryDetailCtrl',['$scope', '$routeParams', 'SimpleRestClient', 'Notification', function($scope, $routeParams, SimpleRestClient, Notification) {
     $scope.action = 'ADD';
-    $scope.Delivery = {};
+    $scope.Delivery = {Items: []};
+    $scope.itemTemp = getDefaultItemTemp();
+
     var sRestClient = SimpleRestClient('deliveries');
+    var sRestClientItem = SimpleRestClient('items');
+    sRestClientItem.get({}).then(function(ret){
+        $scope.Items = ret.Items;
+    })
+
 
     if($routeParams.itemId){
         $scope.action = 'EDIT';
@@ -227,7 +236,41 @@ appControllers.controller('DeliveryDetailCtrl',['$scope', '$routeParams', 'Simpl
         });
     }
 
+    function getDefaultItemTemp() {
+        return {id:'', DeliveryItems:{}};
+    }
+
+    $scope.removeItem = function(index){
+        $scope.Delivery.Items.splice(index, 1)
+    }
+
+    $scope.addItem = function(params){
+        var toAdd = true;
+        for (var i = $scope.Delivery.Items.length - 1; i >= 0; i--) {
+            if($scope.Delivery.Items[i].id == params.item.id){
+                toAdd = false;
+            }
+        };
+
+        if(toAdd){
+            $scope.Delivery.Items.push({
+                id: params.item.id,
+                name: params.item.name,
+                DeliveryItems: params.DeliveryItems
+            });
+
+            $scope.itemTemp = getDefaultItemTemp();
+        }else{
+            Notification.error('The item is already added.')
+        }
+    }
+
     $scope.save = function(){
+        $scope.Delivery.Items = [{id: 1, DeliveryItems: {
+            description: 'description',
+            quantity: 10
+        }}];
+
         sRestClient.save($scope.Delivery).then(function(ret){
             $scope.Delivery = ret.Delivery;
         });

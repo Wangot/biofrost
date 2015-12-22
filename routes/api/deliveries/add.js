@@ -3,18 +3,6 @@ var models = require(path.resolve("./models/orm"));
 
 module.exports = function(req, res) {
 	var delivery = req.body;
-	/*var delivery = {
-		description: "this is a delivery",
-		Items: [
-			{
-                id: 1,
-				DeliveryItems: {
-                    description: 'description',
-				    quantity: 10
-                }
-			}
-		]
-	}*/
 
     return models.sequelize.transaction(function (t) { 
         return models.Delivery.create(delivery, {transaction: t}).then(function(deliveryObj){
@@ -27,10 +15,12 @@ module.exports = function(req, res) {
                     description: delivery.Items[i].DeliveryItems.description
                 }
 
-                items.push(temp)
+                items.push(temp);
             };
+
+            console.log("=== > ", items.length, items)
         	return models.DeliveryItems.bulkCreate(items, {transaction:t}).then(function(){
-        		var items = [];
+        		/*var employees = [];
                 for (var i = delivery.Employees.length - 1; i >= 0; i--) {
                     var temp = {
                         item_id: delivery.Employees[i].id,
@@ -39,13 +29,22 @@ module.exports = function(req, res) {
                         description: delivery.Employees[i].DeliveryItems.description
                     }
 
-                    items.push(temp)
-                };
-                return deliveryObj;
+                    employees.push(temp)
+                };*/
+                    return deliveryObj;
         	});
         });
     }).then(function(resultObj){
-       res.renderJsonSuccess({ Delivery: resultObj });
+        models.Delivery.findOne({
+            where: {
+                id: resultObj.id
+            },
+            include: [
+                models.Item
+            ]
+        }).then(function(delivery){
+            res.renderJsonSuccess({ Delivery: delivery });
+        })
     }).catch(function(err){
         res.renderJsonFail('Failed saving the deliveries', err.errors);
     });
