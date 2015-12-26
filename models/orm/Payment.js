@@ -12,7 +12,7 @@ module.exports = function(sequelize, DataTypes) {
         },
         classMethods: {
             associate: function(models) {
-                Payment.belongsTo(models.Order)
+                Payment.belongsTo(models.Invoice)
             }
         },
         hooks: {

@@ -2,8 +2,8 @@ var path = require('path');
 var models = require(path.resolve("./models/orm"));
 
 module.exports = function(req, res) {
-	var order = req.body;
-    /*var order= {
+	var invoice = req.body;
+    /*var invoice= {
         name: 'test',
         client_id: 1,
         Payments: [
@@ -17,8 +17,8 @@ module.exports = function(req, res) {
     }*/
 
     return models.sequelize.transaction(function (t) { 
-        return models.Order.create(
-            order, 
+        return models.Invoice.create(
+            invoice, 
             {
                 transaction: t,
                 include:[
@@ -27,7 +27,7 @@ module.exports = function(req, res) {
             }
         )
     }).then(function(resultObj){
-       res.renderJsonSuccess({ orders: resultObj });
+       res.renderJsonSuccess({ invoice: resultObj });
     }).catch(function(err){
         res.renderJsonFail('Failed saving the deliveries', err.errors);
     });

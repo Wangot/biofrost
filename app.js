@@ -27,7 +27,6 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 /*models.sequelize.sync({force: true}).then(function(){
     models.Merchant.create({name: 'Biofrost'});
-  // models.Item.create({name: 'eman', description: 'Hello', price: 100}).then(function(item){console.log(item);})
 });*/
 
 

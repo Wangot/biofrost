@@ -10,6 +10,9 @@ module.exports = function(req, res) {
             },
             {
                 model: models.Truck
+            },
+            {
+                model: models.Employee
             }
     	]
     }).then(function(results){

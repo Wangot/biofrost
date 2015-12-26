@@ -1,6 +1,10 @@
 module.exports = function(sequelize, DataTypes) {
     var Delivery = sequelize.define("Delivery", {
-        description: DataTypes.TEXT
+        code:  DataTypes.TEXT,
+        description: DataTypes.TEXT,
+        delivery_date: DataTypes.DATE,
+        dispatch_time: DataTypes.TIME,
+        return_time: DataTypes.TIME
     }, 
     {
         underscored: true,

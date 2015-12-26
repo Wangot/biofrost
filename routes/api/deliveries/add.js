@@ -20,18 +20,15 @@ module.exports = function(req, res) {
 
             console.log("=== > ", items.length, items)
         	return models.DeliveryItems.bulkCreate(items, {transaction:t}).then(function(){
-        		/*var employees = [];
+        		var employeesTemp = [];
                 for (var i = delivery.Employees.length - 1; i >= 0; i--) {
-                    var temp = {
-                        item_id: delivery.Employees[i].id,
-                        delivery_id: deliveryObj.id,
-                        quantity: delivery.Employees[i].DeliveryItems.quantity,
-                        description: delivery.Employees[i].DeliveryItems.description
-                    }
-
-                    employees.push(temp)
-                };*/
-                    return deliveryObj;
+                    employeesTemp.push(delivery.Employees[i].id)
+                };
+                return models.Employee.findAll({where: {id: employeesTemp}}).then(function(employees){
+                    return deliveryObj.setEmployees(employees, {transaction: t}).then(function(){
+                        return deliveryObj;
+                    });
+                });
         	});
         });
     }).then(function(resultObj){
@@ -40,7 +37,9 @@ module.exports = function(req, res) {
                 id: resultObj.id
             },
             include: [
-                models.Item
+                models.Truck,
+                models.Item,
+                models.Employee
             ]
         }).then(function(delivery){
             res.renderJsonSuccess({ Delivery: delivery }, 'Saving of delivery is successful.');

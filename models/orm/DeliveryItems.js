@@ -1,7 +1,10 @@
 module.exports = function(sequelize, DataTypes) {
     var DeliveryItems = sequelize.define("DeliveryItems", {
         description: DataTypes.TEXT,
-        quantity: DataTypes.INTEGER
+        quantity: {
+            type: DataTypes.INTEGER,
+            defaultValue: 0
+        }
     }, 
     {
         underscored: true,

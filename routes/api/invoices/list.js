@@ -2,7 +2,7 @@ var path = require('path');
 var models = require(path.resolve("./models/orm"));
 
 module.exports = function(req, res) {
-    models.Order.findAll({
+    models.Invoice.findAll({
     	include: [
             {
                 model: models.Payment
@@ -12,6 +12,6 @@ module.exports = function(req, res) {
             }
     	]
     }).then(function(results){
-        res.renderJsonSuccess({ Orders: results });
+        res.renderJsonSuccess({ Invoices: results });
     });
 }

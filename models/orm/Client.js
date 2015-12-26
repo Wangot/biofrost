@@ -28,7 +28,7 @@ module.exports = function(sequelize, DataTypes) {
         classMethods: {
             associate: function(models) {
                 Client.hasMany(models.Employee, {constraints: false, foreignKey: 'ref_id', scope: {company_type: 'CLIENT'}}),
-                Client.hasMany(models.Order)
+                Client.hasMany(models.Invoice)
             }
         },
         hooks: {

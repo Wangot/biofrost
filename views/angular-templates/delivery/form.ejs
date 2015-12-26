@@ -9,11 +9,86 @@
     <div class="col-lg-offset-3 col-lg-6">
         <form role="form">
             <div class="form-group">
-                <label>Description</label>
+                <label>Truck</label>
+                <select class="form-control" 
+                    ng-change="Delivery.truck_id = Delivery.Truck.id"
+                    ng-options="item as item.name for item in Trucks track by item.id" ng-model="Delivery.Truck"></select>
+                <p class="help-block"></p>
+            </div>
+
+            <div class="form-group">
+                <label>Employees</label>
+                <div class="col-lg-12">
+                    <div class="table-responsive">
+                        <table class="table table-bordered table-hover table-striped">
+                            <thead>
+                                <tr>
+                                    <th>id</th>
+                                    <th>First name</th>
+                                    <th>Middle Name</th>
+                                    <th>Last name</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr ng-repeat="item in Delivery.Employees">
+                                    <td>{{item.id}}</td>
+                                    <td>{{item.first_name}}</td>
+                                    <td>{{item.middle_name}}</td>
+                                    <td>{{item.last_name}}</td>
+                                    <td><button ng-click="removeEmployee($index)" class="btn">Remove</button></td>
+                                </tr>
+
+                                <tr>
+                                    <td colspan="4">
+                                        <select class="form-control" 
+                                            ng-options="item as item.first_name +' '+ item.last_name for item in Employees track by item.id" ng-model="employeeTemp">
+                                            <option value="" selected>--Please select your employee--</option>
+                                        </select>
+                                    </td>
+                                    <td>
+                                        <button ng-click="addEmployee(employeeTemp)" class="btn btn-md btn-primary">Add</button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label>Note</label>
                 <textarea ng-model="Delivery.description" class="form-control" rows="3"></textarea>
             </div>
-            <div class="form-action">
-            {{itemTemp}}
+            
+            <div class="form-group" style="display:none;">
+                <div class="col-lg-12">
+                    <h4 class="col-lg-offset-3 col-lg-6 page-header">Add item</h4>
+                    <div class="col-lg-offset-3 col-lg-6 ">
+                        <label>Item</label>
+                        <select class="form-control" 
+                            ng-options="item as item.name for item in Items track by item.id" ng-model="itemTemp.item">
+                            <option value="" selected>--Please select your color--</option>
+                        </select>
+                        <p class="help-block"></p>
+                    </div>
+                    <div class="col-lg-offset-3 col-lg-6">
+                        <label>Description</label>
+                        <textarea ng-model="itemTemp.DeliveryItems.description" class="form-control" rows="3"></textarea>
+                    </div>
+                    <div class="col-lg-offset-3 col-lg-6">
+                        <label>Quantity</label>
+                        <input ng-model="itemTemp.DeliveryItems.quantity" class="form-control" placeholder="Enter text">
+                        <p class="help-block"></p>
+                    </div>
+                    <div class="col-lg-pull-3 col-lg-6 form-action">
+                        <button ng-click="addItem(itemTemp)" class="btn btn-md btn-primary">Add</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label>Items</label>
                 <div class="col-lg-12">
                     <div class="table-responsive">
                         <table class="table table-bordered table-hover table-striped">
@@ -21,7 +96,7 @@
                                 <tr>
                                     <th>id</th>
                                     <th>Name</th>
-                                    <th>Description</th>
+                                    <th>Note</th>
                                     <th>Quantity</th>
                                     <th>Actions</th>
                                 </tr>
@@ -39,11 +114,11 @@
                                     <td colspan="2">
                                         <select class="form-control" 
                                             ng-options="item as item.name for item in Items track by item.id" ng-model="itemTemp.item">
-                                            <option value="" selected>--Please select your color--</option>
+                                            <option value="" selected>--Please select your item--</option>
                                         </select>
                                     </td>
                                     <td>
-                                        <input ng-model="itemTemp.DeliveryItems.description" class="form-control" placeholder="Enter description">
+                                        <input ng-model="itemTemp.DeliveryItems.description" class="form-control" placeholder="Enter note">
                                     </td>
                                     <td>
                                         <input ng-model="itemTemp.DeliveryItems.quantity" class="form-control" placeholder="Enter quantity">

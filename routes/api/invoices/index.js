@@ -1,5 +1,5 @@
 module.exports = function(router){
-    var routeUrl = '/orders';
+    var routeUrl = '/invoices';
 
     router.get(routeUrl, require('./list'));
     router.get(routeUrl +'/:id', require('./view'));

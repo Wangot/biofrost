@@ -1,5 +1,5 @@
 module.exports = function(sequelize, DataTypes) {
-    var Order = sequelize.define("Order", {
+    var Invoice = sequelize.define("Invoice", {
         name: {
             type: DataTypes.STRING(100),
             allowNull: false,
@@ -11,22 +11,30 @@ module.exports = function(sequelize, DataTypes) {
         discount: {
             type: DataTypes.DECIMAL(10, 2),
             defaultValue: 0
+        },
+        amount_paid: {
+            type: DataTypes.DECIMAL(10, 2),
+            defaultValue: 0
+        },
+        balance: {
+            type: DataTypes.DECIMAL(10, 2),
+            defaultValue: 0
         }
     }, 
     {
         underscored: true,
-        tableName: 'order',
+        tableName: 'invoice',
         instanceMethods: {
         },
         classMethods: {
             associate: function(models) {
-                Order.belongsTo(models.Client),
-                Order.hasMany(models.Payment)
+                Invoice.belongsTo(models.Client),
+                Invoice.hasMany(models.Payment)
             }
         },
         hooks: {
         }
     });
 
-    return Order;
+    return Invoice;
 };

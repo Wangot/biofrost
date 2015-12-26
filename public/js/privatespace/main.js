@@ -219,14 +219,25 @@ appControllers.controller('DeliveryCtrl',['$scope', 'SimpleRestClient', function
 
 appControllers.controller('DeliveryDetailCtrl',['$scope', '$routeParams', 'SimpleRestClient', 'Notification', function($scope, $routeParams, SimpleRestClient, Notification) {
     $scope.action = 'ADD';
-    $scope.Delivery = {Items: []};
+    $scope.Delivery = {Items: [], Employees: []};
     $scope.itemTemp = getDefaultItemTemp();
 
     var sRestClient = SimpleRestClient('deliveries');
+
     var sRestClientItem = SimpleRestClient('items');
     sRestClientItem.get({}).then(function(ret){
         $scope.Items = ret.Items;
-    })
+    });
+
+    var sRestClientTruck = SimpleRestClient('trucks');
+    sRestClientTruck.get({}).then(function(ret){
+        $scope.Trucks = ret.Trucks;
+    });
+
+    var sRestClientEmployee = SimpleRestClient('employees');
+    sRestClientEmployee.get({}).then(function(ret){
+        $scope.Employees = ret.Employees;
+    });
 
 
     if($routeParams.itemId){
@@ -265,12 +276,27 @@ appControllers.controller('DeliveryDetailCtrl',['$scope', '$routeParams', 'Simpl
         }
     }
 
-    $scope.save = function(){
-        $scope.Delivery.Items = [{id: 1, DeliveryItems: {
-            description: 'description',
-            quantity: 10
-        }}];
+    $scope.removeEmployee = function(index){
+        $scope.Delivery.Employees.splice(index, 1)
+    }
 
+    $scope.addEmployee = function(params){
+        var toAdd = true;
+        for (var i = $scope.Delivery.Employees.length - 1; i >= 0; i--) {
+            if($scope.Delivery.Employees[i].id == params.item.id){
+                toAdd = false;
+            }
+        };
+
+        if(toAdd && params && params.id){
+            $scope.Delivery.Employees.push(params);
+            $scope.employeeTemp = {};
+        }else{
+            Notification.error('No selected employee or the employees is already added.')
+        }
+    }
+
+    $scope.save = function(){
         sRestClient.save($scope.Delivery).then(function(ret){
             $scope.Delivery = ret.Delivery;
         });
