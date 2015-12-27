@@ -4,6 +4,10 @@ module.exports = function(sequelize, DataTypes) {
         quantity: {
             type: DataTypes.INTEGER,
             defaultValue: 0
+        },
+        initial_quantity: {
+            type: DataTypes.INTEGER,
+            defaultValue: 0
         }
     }, 
     {
