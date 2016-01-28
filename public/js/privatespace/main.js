@@ -298,7 +298,7 @@ appControllers.controller('DeliveryDetailCtrl',['$scope', '$routeParams', 'Simpl
 
     $scope.save = function(){
         sRestClient.save($scope.Delivery).then(function(ret){
-            $scope.Delivery = ret.Delivery;
+            if(ret.Delivery) $scope.Delivery = ret.Delivery;
         });
     }
 }]);
