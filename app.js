@@ -32,7 +32,9 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 
 // Initialize custom layout and router
-require('./models/layout')(app);
+// require('./models/layout')(app);
+var accelecore = require("accelecore");
+app.use(accelecore.Express.ejs.layout);
 
 // Routes
 require('./routes/index')(app);
