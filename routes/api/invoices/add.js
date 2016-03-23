@@ -3,9 +3,13 @@ var models = require(path.resolve("./models/orm"));
 
 module.exports = function(req, res) {
 	var invoice = req.body;
-    /*var invoice= {
+    /*var invoice = {
         name: 'test',
         client_id: 1,
+        Client: {
+            name: 'eman',
+            email: 'ray@gigadevs.com'
+        },
         Payments: [
             {
                 amount: 100
@@ -22,6 +26,7 @@ module.exports = function(req, res) {
             {
                 transaction: t,
                 include:[
+                    models.Client,
                     models.Payment
                 ]
             }

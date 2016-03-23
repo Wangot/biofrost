@@ -4,7 +4,7 @@
             Client
         </h3>
         <div class="col-lg-6 title-box">
-            <a href="clients/add" class="btn col-lg-offset-11 btn-primary">Add</a>
+            <a href="invoices/add" class="btn col-lg-offset-11 btn-primary">Add</a>
         </div>
     </div>
 </div>
@@ -16,18 +16,20 @@
                     <tr>
                         <th>id</th>
                         <th>name</th>
-                        <th>email</th>
-                        <th>telephone/mobile</th>
+                        <th>Total cost</th>
+                        <th>Amount Paid</th>
+                        <th>Balance</th>
                         <th>Actions</th>
                     </tr>
                 </thead>
                 <tbody>
-                    <tr ng-repeat="client in Clients">
-                        <td>{{client.id}}</td>
-                        <td>{{client.name}}</td>
-                        <td>{{client.email}}</td>
-                        <td>{{client.telephone}} / {{client.mobile}}</td>
-                        <td><a href="clients/{{client.id}}">Edit</a></td>
+                    <tr ng-repeat="invoice in Invoices">
+                        <td>{{invoice.id}}</td>
+                        <td>{{invoice.name}}</td>
+                        <td>{{invoice.total_cost}}</td>
+                        <td>{{invoice.amount_paid}}</td>
+                        <td>{{invoice.total_cost - invoice.amount_paid}}</td>
+                        <td><a href="invoices/{{invoice.id}}">Edit</a></td>
                     </tr>
                 </tbody>
             </table>

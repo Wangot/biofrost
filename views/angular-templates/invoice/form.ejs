@@ -1,0 +1,72 @@
+<div class="row">
+    <div class="col-lg-12">
+        <h2 class="page-header">
+            Client
+        </h2>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-offset-3 col-lg-6">
+        <form role="form">
+            <div class="form-gruop">
+                <button type="button" ng-click="isExistingClient=true" class="btn btn-sm btn-warning">Existing client</button>
+                <button ng-click="isExistingClient=false" type="button" class="btn btn-sm btn-primary">New Client</button>
+            </div>
+            <div class="form-group" ng-show="isExistingClient">
+                <label>Client</label>
+                <select class="form-control" 
+                    ng-change="Invoice.client_id = Invoice.Client.id"
+                    ng-options="item as item.name for item in Clients track by item.id" ng-model="Invoice.Client"></select>
+                <p class="help-block"></p>
+            </div>
+            <fieldset ng-hide="isExistingClient">
+                <legend> Client Information </legend>
+                <div class="form-group">
+                    <label>Name</label>
+                    <input ng-model="Client.name" class="form-control" placeholder="Enter text">
+                    <p class="help-block"></p>
+                </div>
+                <div class="form-group">
+                    <label>Description</label>
+                    <textarea ng-model="Client.description" class="form-control" rows="3"></textarea>
+                </div>
+                <div class="form-group">
+                    <label>Email</label>
+                    <input ng-model="Client.email" class="form-control" placeholder="Enter text">
+                    <p class="help-block"></p>
+                </div>
+                <div class="form-group">
+                    <label>Telephone</label>
+                    <input ng-model="Client.telephone" class="form-control" placeholder="Enter text">
+                    <p class="help-block"></p>
+                </div>
+                <div class="form-group">
+                    <label>Mobile</label>
+                    <input ng-model="Client.mobile" class="form-control" placeholder="Enter text">
+                    <p class="help-block"></p>
+                </div>
+                <div class="form-group">
+                    <label>Address</label>
+                    <textarea ng-model="Client.adrress" class="form-control" rows="3"></textarea>
+                </div>
+                <div class="form-group col-lg-8 no-padding">
+                    <label>City</label>
+                    <input ng-model="Client.city" class="form-control" placeholder="Enter text">
+                    <p class="help-block"></p>
+                </div>
+                <div class="col-lg-1">
+                </div>
+                <div class="form-group col-lg-3 no-padding">
+                    <label>Zip code</label>
+                    <input ng-model="Client.zip_code" class="form-control" placeholder="Enter text">
+                    <p class="help-block"></p>
+                </div>
+            </fieldset>
+            <div class="form-action">
+                <button type="button" class="btn btn-lg btn-warning">Cancel</button>
+                <button ng-click="save()" type="button" class="btn btn-lg btn-primary">Save</button>
+            </div>
+        </form>
+    </div>
+</div>
+

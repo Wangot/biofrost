@@ -30,6 +30,18 @@ bioApp.config(['$routeProvider', '$locationProvider',
         templateUrl: '/templates/client/form',
         controller: 'ClientDetailCtrl'
       }).
+      when('/invoices', {
+        templateUrl: '/templates/invoice/list',
+        controller: 'InvoiceCtrl'
+      }).
+      when('/invoices/add', {
+        templateUrl: '/templates/invoice/form',
+        controller: 'InvoiceDetailCtrl'
+      }).
+      when('/invoices/:invoiceId', {
+        templateUrl: '/templates/invoice/form',
+        controller: 'InvoiceDetailCtrl'
+      }).
       when('/employees', {
         templateUrl: '/templates/employee/list',
         controller: 'EmployeeCtrl'
@@ -99,7 +111,7 @@ appControllers.controller('ClientCtrl',['$scope', 'SimpleRestClient', function($
     var sRestClient = SimpleRestClient('clients');
     sRestClient.get({}).then(function(ret){
         $scope.Client = ret.Clients;
-    })
+    });
 }]);
 
 appControllers.controller('ClientDetailCtrl',['$scope', '$routeParams', 'SimpleRestClient', function($scope, $routeParams, SimpleRestClient) {
@@ -110,6 +122,42 @@ appControllers.controller('ClientDetailCtrl',['$scope', '$routeParams', 'SimpleR
     if($routeParams.clientId){
         $scope.action = 'EDIT';
         sRestClient.get({id: $routeParams.clientId}).then(function(ret){
+            console.log("retur: ", ret);
+            $scope.Client = ret.Client;
+        });
+    }  
+
+    $scope.save = function(){
+      
+        sRestClient.save($scope.Client).then(function(ret){
+            $scope.Clients = ret.Client;
+        });
+    }
+}]);
+
+/* Invoices */
+appControllers.controller('InvoiceCtrl',['$scope', 'SimpleRestClient', function($scope, SimpleRestClient) {
+    var sRestInvoice = SimpleRestClient('invoices');
+    sRestInvoice.get({}).then(function(ret){
+        $scope.Invoices = ret.Invoices;
+    })
+}]);
+
+appControllers.controller('InvoiceDetailCtrl',['$scope', '$routeParams', 'SimpleRestClient', function($scope, $routeParams, SimpleRestClient) {
+    $scope.action = 'ADD';
+    $scope.Client = {};
+    $scope.isExistingClient = true;
+
+    var sRestInvoice = SimpleRestClient('invoices');
+    var sRestClient = SimpleRestClient('clients');
+
+    sRestClient.get({}).then(function(ret){
+        $scope.Clients = ret.Clients;
+    });
+
+    if($routeParams.clientId){
+        $scope.action = 'EDIT';
+        sRestInvoice.get({id: $routeParams.clientId}).then(function(ret){
             console.log("retur: ", ret);
             $scope.Client = ret.Client;
         });

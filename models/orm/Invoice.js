@@ -16,7 +16,7 @@ module.exports = function(sequelize, DataTypes) {
             type: DataTypes.DECIMAL(10, 2),
             defaultValue: 0
         },
-        balance: {
+        total_cost: {
             type: DataTypes.DECIMAL(10, 2),
             defaultValue: 0
         }
@@ -30,6 +30,7 @@ module.exports = function(sequelize, DataTypes) {
             associate: function(models) {
                 Invoice.belongsTo(models.Client),
                 Invoice.hasMany(models.Payment),
+                Invoice.belongsToMany(models.Item, {through: models.InvoiceItems}),
                 Invoice.belongsToMany(models.Delivery, {through: 'delivery_invoices'})
             }
         },
